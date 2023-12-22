@@ -1,22 +1,8 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { Link } from "react-router-dom";
+import GoogleLoginButton from "../component/GoogleLoginButton";
 
 export default function Login() {
-  const navigate = useNavigate();
-  const handleGoogleLogin = () => {
-    const auth = getAuth();
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log(result.user);
-        localStorage.setItem("user", JSON.stringify(result.user));
-        navigate("/dashboard");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
   return (
     <main className="w-screen min-h-screen flex flex-col bg-gradient-to-br from-blue-800 to-blue-500 mx-auto p-10">
       <form
@@ -47,13 +33,7 @@ export default function Login() {
             Login
           </button>
           <p className="text-center"> or</p>
-          <button
-            className="w-full h-10 bg-white text-black border-[1px] border-black rounded-xl"
-            onClick={handleGoogleLogin}
-            type="button"
-          >
-            Continue with Google
-          </button>
+          <GoogleLoginButton />
           <Link
             to="/register"
             className="w-full h-10 bg-slate-500 text-white text-center rounded-xl flex justify-center items-center"
