@@ -1,14 +1,47 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import GoogleLoginButton from "../component/GoogleLoginButton";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function Register() {
+  const navigate = useNavigate();
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const password2 = e.target.password2.value;
+    if (password !== password2) {
+      alert("Passwords do not match");
+      return;
+    }
+    if (!email || !password || !password2) {
+      alert("Please enter email and password");
+      return;
+    }
+
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters");
+      return;
+    }
+    const auth = getAuth();
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        console.log(result.user);
+        localStorage.setItem("user", JSON.stringify(result.user));
+        navigate("/dashboard");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <main className="w-screen min-h-screen flex flex-col bg-gradient-to-br from-blue-800 to-blue-500 mx-auto p-10">
       <form
         action=""
         className="w-1/4 mx-auto bg-white flex flex-col gap-4 shadow-lg rounded-lg mt-8 p-6"
         autoComplete="off"
+        onSubmit={handleRegister}
       >
         <h1 className="text-4xl text-blue-500 text-center font-bold">
           Register
@@ -38,7 +71,10 @@ export default function Register() {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <button className="w-full h-10 bg-slate-500 text-white rounded-xl">
+          <button
+            className="w-full h-10 bg-slate-500 text-white rounded-xl"
+            type="submit"
+          >
             Register
           </button>
           <p className="text-center"> or</p>
