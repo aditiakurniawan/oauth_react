@@ -13,7 +13,8 @@ export default function App() {
   useEffect(() => {
     const auth = getAuth();
     onAuthStateChanged(auth, (result) => {
-      // console.log("result", result);
+      console.log("result", result);
+      console.log("auth", auth);
       if (result) {
         setIsLogin(true);
       } else {
@@ -37,9 +38,11 @@ export default function App() {
         <Routes>
           <Route path="*" element={<Dashboard />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/api/auth/google/callback?" element={<Dashboard />} />
         </Routes>
       ) : (
         <Routes>
+          <Route path="/api/auth/google/callback?" element={<Dashboard />} />
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="*" element={<Register />} />
