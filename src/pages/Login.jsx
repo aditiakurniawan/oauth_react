@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import GoogleLoginButton from "../component/GoogleLoginButton";
+// import GoogleButton from "../component/GoogleButton";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Login() {
@@ -64,6 +65,7 @@ export default function Login() {
           >
             Register
           </Link>
+          {/* <GoogleButton /> */}
         </div>
       </form>
     </main>
